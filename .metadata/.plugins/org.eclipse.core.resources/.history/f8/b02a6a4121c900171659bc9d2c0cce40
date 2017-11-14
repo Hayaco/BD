@@ -1,0 +1,56 @@
+package LRU;
+
+public class Frame {
+	private String pagename;
+	private int flag; // pour la methode clock
+	
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
+	private int pos;
+	
+	public Frame(String pagename, int pos, int flag) {
+		if (pagename.compareTo("A")<0 || pagename.compareTo("G")>0)
+			throw new IllegalArgumentException("Mauvais nom de page ");
+		this.pagename = pagename;
+		this.flag=flag;
+		this.pos = pos;
+	}
+	public Frame(String pagename, int pos) {
+		this(pagename, pos , -1);
+	}
+	public Frame(String pagename) {
+		this(pagename, -1 , -1);
+	}
+
+	public String getPagename() {
+		return pagename;
+	}
+
+	public void setPagename(String pagename) {
+		if (pagename.compareTo("A")<0 || pagename.compareTo("G")>0)
+			throw new IllegalArgumentException("Mauvais nom de page ");
+		this.pagename = pagename;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+	@Override
+	public String toString() {
+		if (flag==-1) {
+			return pagename;
+		}
+		return pagename +"flag: "+ flag;
+	}
+	
+	
+}

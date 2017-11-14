@@ -1,0 +1,34 @@
+package LRU;
+
+public class Frame {
+	private String pagename;
+	private int pos;
+	
+	public Frame(char pagename, int pos) {
+		this.pagename = pagename;
+		this.pos = pos;
+	}
+
+	public char getPagename() {
+		return pagename;
+	}
+
+	public void setPagename(char pagename) {
+		this.pagename = pagename;
+	}
+
+	public int getPos() {
+		return pos;
+	}
+
+	public void setPos(int pos) {
+		this.pos = pos;
+	}
+	@Override
+	public String toString() {
+				
+		return pagename;
+	}
+	
+	
+}

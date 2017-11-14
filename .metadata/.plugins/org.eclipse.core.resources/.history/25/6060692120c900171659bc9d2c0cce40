@@ -1,0 +1,91 @@
+package LRU;
+
+import java.util.LinkedList;
+
+public class FrameList extends LinkedList{
+	private LinkedList<Frame> buffer;
+	private static final int TAILLE=4;
+	private int nbr_Access_Disk;
+	
+	public FrameList() {
+		this.buffer = new LinkedList<Frame>();
+		this.nbr_Access_Disk=0;
+	}
+
+	public int getNbr_Access_Disk() {
+		return nbr_Access_Disk;
+	}
+
+	public void setNbr_Access_Disk(int nbr_Access_Disk) {
+		this.nbr_Access_Disk = nbr_Access_Disk;
+	}
+
+	public LinkedList<Frame> getBuffer() {
+		return buffer;
+	}
+	
+	public void setBuffer(LinkedList<Frame> buffer) {
+		this.buffer = buffer;
+	}
+
+	@Override
+	public String toString() {
+		String buf="";
+		for(int i=0; i<TAILLE ; i++) {
+			buf+=("(P"+(i+1)+": "+ buffer.get(i)+") ");
+		}
+		return "buffer=[" + buf + "], nbr_Access_Disk=" + nbr_Access_Disk + "]";
+	}
+	
+	public Frame isInBuffer (String page) { //return the position in buffer
+		for (int i=0 ; i<TAILLE && i<buffer.size(); i++) {
+			if (buffer.get(i).getPagename().equals(page))
+				return buffer.get(i);
+		}
+		return null;
+	}
+	
+	public boolean addPage(String page) { 
+		System.out.println("bien avant");
+		// return true if the page is add successfully
+		Frame j=isInBuffer(page);
+		if (j!= null) {
+			System.out.println("avant");
+			reorganize(j);
+			return false;
+		}
+		Frame f=new Frame(page);
+		nbr_Access_Disk++;
+		if (buffer.size()<TAILLE ) {
+			buffer.addFirst(f);
+			System.out.println("ici"); 
+			return true;
+		}
+		System.out.println("la"); 
+		buffer.removeLast();
+		buffer.addFirst(f);
+		return true;
+		
+	}
+	public void reorganize(Frame f) {
+		buffer.removeFirstOccurrence(f);
+		buffer.addFirst(f);
+	}
+	
+	private void run (String [] tab) {
+		for (int i= 0; i<tab.length ;i++) {
+			//System.out.println("dans le run");
+			addPage(tab[i]);
+			System.out.println("T"+(i+1)+buffer);
+		}
+	}
+	public static void main(String[] args) {
+		String[] tab= { "A", "B", "C", "A", "E", "A", "B", "A", "D", "E"};
+		FrameList f=new FrameList();
+		f.run(tab);
+	}
+	
+	
+	
+	
+}
